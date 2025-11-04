@@ -12,7 +12,7 @@ const api = {
   async salvarPensamento(pensamento) {
     try {
       const response = await fetch("http://localhost:3000/pensamentos", {
-        metodo: "POST",
+        method: "POST",
         headers: {
           "Content-type": "aplication/json",
         },
@@ -20,7 +20,7 @@ const api = {
       });
       return await response.json();
     } catch (error) {
-      alert("Erro ao buscar pensamentos");
+      alert("Erro ao salvar pensamentos");
       throw error;
     }
   },
