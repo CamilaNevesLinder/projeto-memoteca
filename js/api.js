@@ -16,10 +16,11 @@ const api = {
       const response = await axios.post(`${URL_BASE}/pensamentos`, pensamento);
       return await response.data;
     } catch (error) {
-      alert("Erro ao salvar pensamentos");
+      alert("Erro ao salvar pensamento");
       throw error;
     }
   },
+
   async buscarPensamentoPorId(id) {
     try {
       const response = await axios.get(`${URL_BASE}/pensamentos/${id}`);
@@ -38,15 +39,34 @@ const api = {
       );
       return await response.data;
     } catch (error) {
-      alert("Erro ao editar pensamentos");
+      alert("Erro ao editar pensamento");
       throw error;
     }
   },
+
   async excluirPensamento(id) {
     try {
       const response = await axios.delete(`${URL_BASE}/pensamentos/${id}`);
     } catch (error) {
-      alert("Erro ao excluir pensamentos");
+      alert("Erro ao excluir um pensamento");
+      throw error;
+    }
+  },
+
+  async buscarPensamentosPorTermo(termo) {
+    try {
+      const pensamentos = await this.buscarPensamentos();
+      const termoEmMinusculas = termo.toLowerCase();
+
+      const pensamentoFiltrados = pensamentos.filter((pensamento) => {
+        return (
+          pensamento.conteudo.toLowerCase().includes(termoEmMinusculas) ||
+          pensamento.autoria.toLowerCase().includes(termoEmMinusculas)
+        );
+      });
+      return pensamentoFiltrados;
+    } catch (error) {
+      alert("Error ao filtrar pensamentos");
       throw error;
     }
   },

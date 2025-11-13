@@ -12,20 +12,27 @@ const ui = {
     document.getElementById("pensamento-form").reset();
   },
 
-  async renderizarPensamentos() {
+  async renderizarPensamentos(pensamentoFiltrados = null) {
     const listaPensamentos = document.getElementById("lista-pensamentos");
     const mensagemVazia = document.getElementById("mensagem-vazia");
     listaPensamentos.innerHTML = "";
 
     try {
-      const pensamentos = await api.buscarPensamentos();
-      if (listaPensamentos === 0) {
+      let pensamentosParaRenderizar;
+
+      if (pensamentoFiltrados) {
+        pensamentosParaRenderizar = pensamentoFiltrados;
+      } else {
+        pensamentosParaRenderizar = await api.buscarPensamentos();
+      }
+
+      if (pensamentosParaRenderizar.length === 0) {
         mensagemVazia.style.display = "block";
       } else {
         mensagemVazia.style.display = "none";
+        pensamentosParaRenderizar.forEach(ui.adicionarPensamentoNaLista);
       }
-      pensamentos.forEach(ui.adicionarPensamentoNaLista);
-    } catch {
+    } catch (error) {
       alert("Erro ao renderizar pensamentos");
     }
   },
@@ -38,7 +45,7 @@ const ui = {
 
     const iconeAspas = document.createElement("img");
     iconeAspas.src = "assets/imagens/aspas-azuis.png";
-    iconeAspas.alt = "aspas azuis";
+    iconeAspas.alt = "Aspas azuis";
     iconeAspas.classList.add("icone-aspas");
 
     const pensamentoConteudo = document.createElement("div");
@@ -65,7 +72,7 @@ const ui = {
         await api.excluirPensamento(pensamento.id);
         ui.renderizarPensamentos();
       } catch (error) {
-        alert("Erro ao excluir pensamento");
+        alert("Erro ao excluir pensamnto");
       }
     };
 
