@@ -70,6 +70,17 @@ const api = {
       throw error;
     }
   },
+
+  async atualizarFavorito(id, favorito) {
+    try {
+      const response = await axios.patch(`${URL_BASE}/pensamentos/${id}`, {
+        favorito,
+      });
+      return response.data;
+    } catch {
+      alert("Erro ao atualizar favorito");
+    }
+  },
 };
 
 export default api;
