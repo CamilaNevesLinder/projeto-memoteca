@@ -6,11 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const formularioPensamento = document.getElementById("pensamento-form");
   const botaoCancelar = document.getElementById("botao-cancelar");
-  const inputBuscar = document.getElementById("campo-busca");
+  const inputBusca = document.getElementById("campo-busca");
 
   formularioPensamento.addEventListener("submit", manipularSubmissaoFormulario);
   botaoCancelar.addEventListener("click", manipularCancelamento);
-  inputBuscar.addEventListener("input", manipularBusca);
+  inputBusca.addEventListener("input", manipularBusca);
 });
 
 async function manipularSubmissaoFormulario(event) {
@@ -26,7 +26,7 @@ async function manipularSubmissaoFormulario(event) {
       await api.salvarPensamento({ conteudo, autoria });
     }
     ui.renderizarPensamentos();
-  } catch (error) {
+  } catch {
     alert("Erro ao salvar pensamento");
   }
 }
@@ -41,8 +41,9 @@ async function manipularBusca() {
     const pensamentosFiltrados = await api.buscarPensamentosPorTermo(
       termoBusca
     );
+    console.log(pensamentosFiltrados);
     ui.renderizarPensamentos(pensamentosFiltrados);
   } catch (error) {
-    alert("Erro ao renderizar busca");
+    alert("Erro ao realizar busca");
   }
 }
