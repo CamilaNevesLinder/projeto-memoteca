@@ -12,7 +12,7 @@ const ui = {
     document.getElementById("pensamento-form").reset();
   },
 
-  async renderizarPensamentos(pensamentoFiltrados = null) {
+  async renderizarPensamentos(pensamentosFiltrados = null) {
     const listaPensamentos = document.getElementById("lista-pensamentos");
     const mensagemVazia = document.getElementById("mensagem-vazia");
     listaPensamentos.innerHTML = "";
@@ -20,8 +20,8 @@ const ui = {
     try {
       let pensamentosParaRenderizar;
 
-      if (pensamentoFiltrados) {
-        pensamentosParaRenderizar = pensamentoFiltrados;
+      if (pensamentosFiltrados) {
+        pensamentosParaRenderizar = pensamentosFiltrados;
       } else {
         pensamentosParaRenderizar = await api.buscarPensamentos();
       }
@@ -32,7 +32,7 @@ const ui = {
         mensagemVazia.style.display = "none";
         pensamentosParaRenderizar.forEach(ui.adicionarPensamentoNaLista);
       }
-    } catch (error) {
+    } catch {
       alert("Erro ao renderizar pensamentos");
     }
   },
@@ -72,7 +72,7 @@ const ui = {
         await api.excluirPensamento(pensamento.id);
         ui.renderizarPensamentos();
       } catch (error) {
-        alert("Erro ao excluir pensamnto");
+        alert("Erro ao excluir pensamento");
       }
     };
 
@@ -83,10 +83,20 @@ const ui = {
 
     const botaoFavorito = document.createElement("button");
     botaoFavorito.classList.add("botao-favorito");
+    botaoFavorito.onclick = async () => {
+      try {
+        await api.atualizarFavorito(pensamento.id, !pensamento.favorito);
+        ui.renderizarPensamentos();
+      } catch (error) {
+        alert("Erro ao atualizar pensamento");
+      }
+    };
 
     const iconeFavorito = document.createElement("img");
-    iconeFavorito.src = "assets/imagens/icone-favorito_outline.png";
-    iconeFavorito.alt = "icone favorito";
+    iconeFavorito.src = pensamento.favorito
+      ? "assets/imagens/icone-favorito.png"
+      : "assets/imagens/icone-favorito_outline.png";
+    iconeFavorito.alt = "Ícone de favorito";
     botaoFavorito.appendChild(iconeFavorito);
 
     const icones = document.createElement("div");
