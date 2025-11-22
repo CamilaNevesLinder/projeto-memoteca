@@ -240,8 +240,8 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  row-gap: 32px;
-  column-gap: 24px;
+  gap: 30px;
+  margin-top: 4rem;
 }
 
 .li-pensamento {
@@ -258,6 +258,7 @@ h3 {
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
+  border-radius: 2rem;
 }
 
 .icone-aspas {
