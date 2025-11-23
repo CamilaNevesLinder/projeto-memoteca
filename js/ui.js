@@ -69,13 +69,22 @@ const ui = {
       day: "numeric",
       timeZone: "UTC",
     };
-    const dataFormatada = pensamento.data.toLocaleDateString("pt-BR", options);
-    const dataComRegex = dataFormatada.replace(/^(\w)/, (match) =>
-      match.toUpperCase()
-    );
 
-    pensamentoData.textContent = dataComRegex;
-    pensamentoData.classList.add("pensamento-data");
+    const data = new Date(pensamento.data);
+
+    if (!isNaN(data.getTime())) {
+      const dataFormatada = data.toLocaleDateString("pt-BR", options);
+
+      const firstLetterDateToUppercase = dataFormatada
+        .slice(0, 1)
+        .toUpperCase();
+      const restLetters = dataFormatada.slice(1);
+
+      const formattedDate = firstLetterDateToUppercase + restLetters;
+
+      pensamentoData.textContent = formattedDate;
+      pensamentoData.classList.add("pensamento-data");
+    }
 
     const botaoEditar = document.createElement("button");
     botaoEditar.classList.add("botao-editar");

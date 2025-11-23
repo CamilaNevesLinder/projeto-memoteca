@@ -59,7 +59,7 @@ const api = {
         pensamento
       );
       return await response.data;
-    } catch (error) {
+    } catch {
       alert("Erro ao editar pensamento");
       throw error;
     }
